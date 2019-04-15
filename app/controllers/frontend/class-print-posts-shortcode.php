@@ -1,8 +1,8 @@
 <?php
 namespace Example_Me\App\Controllers\Frontend;
 
-if ( ! class_exists( __NAMESPACE__ . '\\' . 'Sample_Shortcode' ) ) {
-	class Sample_Shortcode extends Base_Controller {
+if ( ! class_exists( __NAMESPACE__ . '\\' . 'Print_Posts_Shortocde' ) ) {
+	class Print_Posts_Shortocde extends Base_Controller {
 
 		/**
 		 * Registers the `example_me_print_posts` shortcode

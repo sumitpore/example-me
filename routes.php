@@ -140,6 +140,6 @@ $router
 // Route for Sample Shortcode.
 $router
 	->register_route_of_type( ROUTE_TYPE::FRONTEND )
-	->with_controller( 'Sample_Shortcode@register_shortcode' )
-	->with_model( 'Sample_Shortcode' )
-	->with_view( 'Sample_Shortcode' );
+	->with_controller( 'Print_Posts_Shortocde@register_shortcode' )
+	->with_model( 'Print_Posts_Shortocde' )
+	->with_view( 'Print_Posts_Shortocde' );

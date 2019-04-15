@@ -1,8 +1,8 @@
 <?php
 namespace Example_Me\App\Models\Frontend;
 
-if ( ! class_exists( __NAMESPACE__ . '\\' . 'Sample_Shortcode' ) ) {
-	class Sample_Shortcode extends Base_Model {
+if ( ! class_exists( __NAMESPACE__ . '\\' . 'Print_Posts_Shortocde' ) ) {
+	class Print_Posts_Shortocde extends Base_Model {
 
 		public function get_posts_for_shortcode( $shortcode, $atts ) {
 			$atts = shortcode_atts(
