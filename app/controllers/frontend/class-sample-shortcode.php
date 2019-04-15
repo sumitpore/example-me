@@ -5,13 +5,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Sample_Shortcode' ) ) {
 	class Sample_Shortcode extends Base_Controller {
 
 		/**
-		 * Registers the `plugin_name_print_posts` shortcode
+		 * Registers the `example_me_print_posts` shortcode
 		 *
 		 * @return void
 		 * @since 1.0.0
 		 */
 		public function register_shortcode() {
-			add_shortcode( 'plugin_name_print_posts', array( $this, 'print_posts_callback' ) );
+			add_shortcode( 'example_me_print_posts', array( $this, 'print_posts_callback' ) );
 		}
 
 		/**
@@ -20,7 +20,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Sample_Shortcode' ) ) {
 		protected function register_hook_callbacks(){}
 
 		/**
-		 * Callback to handle `plugin_name_print_posts` shortcode
+		 * Callback to handle `example_me_print_posts` shortcode
 		 *
 		 * @return void
 		 * @since 1.0.0
