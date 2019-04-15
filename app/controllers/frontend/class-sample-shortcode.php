@@ -26,25 +26,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Sample_Shortcode' ) ) {
 		 * @since 1.0.0
 		 */
 		public function print_posts_callback( $atts ) {
-			$the_query = $this->get_model()->get_posts_for_shortcode( 'plugin_name_print_posts', $atts );
 
-			if ( $the_query->have_posts() ) : ?>
+			return $this->get_view()->shortcode_html([
+				'fetched_posts'	=>	$this->get_model()->get_posts_for_shortcode( 'example_me_print_posts', $atts )
+			]);
 
-				<!-- the loop -->
-				<?php
-				while ( $the_query->have_posts() ) :
-					$the_query->the_post();
-					?>
-					<h2><?php the_title(); ?></h2>
-				<?php endwhile; ?>
-				<!-- end of the loop -->
-
-				<?php wp_reset_postdata(); ?>
-
-			<?php else : ?>
-				<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
-			<?php
-			endif;
 		}
 
 	}

@@ -141,5 +141,5 @@ $router
 $router
 	->register_route_of_type( ROUTE_TYPE::FRONTEND )
 	->with_controller( 'Sample_Shortcode@register_shortcode' )
-	->with_model( 'Sample_Shortcode' );
-	// ->with_view( 'Sample_Shortcode' );
+	->with_model( 'Sample_Shortcode' )
+	->with_view( 'Sample_Shortcode' );
