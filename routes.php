@@ -137,9 +137,9 @@ $router
 	->with_model( 'Admin_Settings' ) // Resolved by Router to 'Example_Me\App\Models\Admin\Admin_Settings'.
 	->with_view( 'Admin_Settings' ); // Resolved by Router to 'Example_Me\App\Views\Admin\Admin_Settings'.
 
-// Route for Sample Shortcode
+// Route for Sample Shortcode.
 $router
 	->register_route_of_type( ROUTE_TYPE::FRONTEND )
-	->with_controller( 'Sample_Shortcode@register_shortcode' );
-	// ->with_model( 'Sample_Shortcode' )
+	->with_controller( 'Sample_Shortcode@register_shortcode' )
+	->with_model( 'Sample_Shortcode' );
 	// ->with_view( 'Sample_Shortcode' );
