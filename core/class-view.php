@@ -1,7 +1,7 @@
 <?php
 namespace Example_Me\Core;
 
-use \Example_Me as Example_Me;
+use Example_Me as Example_Me;
 
 /**
  * Class Responsible for Loading Templates

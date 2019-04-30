@@ -1,9 +1,8 @@
 <?php
 namespace Example_Me\App\Models\Admin;
 
-use \Example_Me\App\Models\Settings as Settings_Model;
-use \Example_Me\App\Models\Admin\Base_Model;
-use \Example_Me as Example_Me;
+use Example_Me\App\Models\Settings as Settings_Model;
+use Example_Me\App\Models\Admin\Base_Model;
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 	/**

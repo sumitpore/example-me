@@ -1,7 +1,7 @@
 <?php
 namespace Example_Me\App\Models\Frontend;
 
-use \Example_Me\Core\Model;
+use Example_Me\Core\Model;
 
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Base_Model' ) ) {

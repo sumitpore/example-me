@@ -1,10 +1,8 @@
 <?php
 namespace Example_Me\App\Controllers\Admin;
 
-use \Example_Me\App\Controllers\Admin\Base_Controller;
-use \Example_Me as Example_Me;
-use \Example_Me\Core\Model;
-use \Example_Me\Core\View;
+use Example_Me\App\Controllers\Admin\Base_Controller;
+use Example_Me as Example_Me;
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 
@@ -16,40 +14,35 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 	 * @subpackage Example_Me/controllers/admin
 	 */
 	class Admin_Settings extends Base_Controller {
+
 		/**
 		 * Holds suffix for dynamic add_action called on settings page.
 		 *
 		 * @var string
 		 * @since 1.0.0
 		 */
-		private static $hook_suffix = '';
-
-		const SETTINGS_PAGE_URL = Example_Me::PLUGIN_ID;
-		const REQUIRED_CAPABILITY = 'manage_options';
+		private static $hook_suffix = 'settings_page_' . Example_Me::PLUGIN_ID;
 
 		/**
-		 * Constructor
+		 * Slug of the Settings Page
 		 *
-		 * @param Model $model Model object to be associated with this controller.
-		 * @param View  $view View object to be associated with this controller.
 		 * @since    1.0.0
 		 */
-		protected function __construct( Model $model, View $view ) {
+		const SETTINGS_PAGE_SLUG = Example_Me::PLUGIN_ID;
 
-			// Every constructor must call init method. init method sets model & view properties.
-			$this->init( $model, $view );
-
-			static::$hook_suffix = 'settings_page_' . Example_Me::PLUGIN_ID;
-
-			$this->register_hook_callbacks();
-		}
+		/**
+		 * Capability required to access settings page
+		 *
+		 * @since 1.0.0
+		 */
+		const REQUIRED_CAPABILITY = 'manage_options';
 
 		/**
 		 * Register callbacks for actions and filters
 		 *
 		 * @since    1.0.0
 		 */
-		protected function register_hook_callbacks() {
+		public function register_hook_callbacks() {
 			// Create Menu.
 			add_action( 'admin_menu', array( $this, 'plugin_menu' ) );
 
@@ -81,7 +74,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 				__( Example_Me::PLUGIN_NAME, Example_Me::PLUGIN_ID ),        // Page Title.
 				__( Example_Me::PLUGIN_NAME, Example_Me::PLUGIN_ID ),        // Menu Title.
 				static::REQUIRED_CAPABILITY,           // Capability.
-				static::SETTINGS_PAGE_URL,             // Menu URL.
+				static::SETTINGS_PAGE_SLUG,             // Menu URL.
 				array( $this, 'markup_settings_page' ) // Callback.
 			);
 			// @codingStandardsIgnoreEnd.
@@ -157,19 +150,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 				'example_me_section',                    // Section ID.
 				__( 'Settings', Example_Me::PLUGIN_ID ), // Section Title.
 				array( $this, 'markup_section_headers' ), // Section Callback.
-				static::SETTINGS_PAGE_URL                 // Page URL.
+				static::SETTINGS_PAGE_SLUG                 // Page URL.
 			);
 
 			// Add Settings Page Field.
 			add_settings_field(
-				'example_me_field',                                // Field ID.
-				__( 'Example Me Field:', Example_Me::PLUGIN_ID ), // Field Title.
+				'number_of_posts',                                // Field ID.
+				__( 'Default Number of Posts:', Example_Me::PLUGIN_ID ), // Field Title.
 				array( $this, 'markup_fields' ),                    // Field Callback.
-				static::SETTINGS_PAGE_URL,                          // Page.
+				static::SETTINGS_PAGE_SLUG,                          // Page.
 				'example_me_section',                              // Section ID.
 				array(                                              // Field args.
-					'id'        => 'example_me_field',
-					'label_for' => 'example_me_field',
+					'id'        => 'number_of_posts',
+					'label_for' => 'number_of_posts',
 				)
 			);
 		}
@@ -220,7 +213,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 		 * @since    1.0.0
 		 */
 		public function add_plugin_action_links( $links ) {
-			$settings_link = '<a href="options-general.php?page=' . static::SETTINGS_PAGE_URL . '">' . __( 'Settings', Example_Me::PLUGIN_ID ) . '</a>';
+			$settings_link = '<a href="options-general.php?page=' . static::SETTINGS_PAGE_SLUG . '">' . __( 'Settings', Example_Me::PLUGIN_ID ) . '</a>';
 			array_unshift( $links, $settings_link );
 
 			return $links;

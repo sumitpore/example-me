@@ -1,7 +1,7 @@
 <?php
 namespace Example_Me\Includes;
 
-use \Example_Me as Example_Me;
+use Example_Me as Example_Me;
 
 if ( ! class_exists( 'Dependency_Loader' ) ) {
 

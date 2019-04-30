@@ -1,8 +1,8 @@
 <?php
 namespace Example_Me\App\Views\Admin;
 
-use \Example_Me\Core\View;
-use \Example_Me as Example_Me;
+use Example_Me\Core\View;
+use Example_Me as Example_Me;
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Admin_Settings' ) ) {
 	/**

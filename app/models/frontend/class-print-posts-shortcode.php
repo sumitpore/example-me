@@ -1,22 +1,35 @@
 <?php
 namespace Example_Me\App\Models\Frontend;
 
-if ( ! class_exists( __NAMESPACE__ . '\\' . 'Print_Posts_Shortocde' ) ) {
-	class Print_Posts_Shortocde extends Base_Model {
+use Example_Me\App\Models\Settings;
 
-		public function get_posts_for_shortcode( $shortcode, $atts ) {
-			$atts = shortcode_atts(
-				array(
-					'number_of_posts' => '10',
-				), $atts, $shortcode
-			);
+/**
+ * Model to handle 'example_me_print_posts' shortcode
+ *
+ * @since      1.0.0
+ * @package    Example_Me
+ * @subpackage Example_Me/Models/Frontend
+ */
+class Print_Posts_Shortcode extends Base_Model {
 
-			$args = array(
-				'post_type' => 'post',
-				'posts_per_page' => is_int( $atts['number_of_posts'] ) ? $atts['number_of_posts'] : 10,
-			);
+	/**
+	 * Fetch Posts
+	 *
+	 * @param array $atts Attributes passed to shortcode.
+	 * @return \WP_Query Returns found posts as WP_Query Object.
+	 */
+	public function fetch_posts( $atts ) {
+		$atts = shortcode_atts(
+			[
+				'number_of_posts' => Settings::get_setting( 'number_of_posts' ),
+			], $atts, 'example_me_print_posts'
+		);
 
-			return new \WP_Query( $args );
-		}
+		$args = [
+			'post_type' => 'post',
+			'posts_per_page' => is_numeric( $atts['number_of_posts'] ) ? $atts['number_of_posts'] : Settings::get_setting( 'number_of_posts' ),
+		];
+
+		return new \WP_Query( $args );
 	}
 }

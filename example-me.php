@@ -24,53 +24,22 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'EXAMPLE_ME_REQUIRED_PHP_VERSION', '5.3' ); // because of get_called_class().
-define( 'EXAMPLE_ME_REQUIRED_WP_VERSION', '4.8' );
-define( 'EXAMPLE_ME_REQUIRED_WP_NETWORK', false ); // because plugin is not compatible with WordPress multisite.
-
 /**
- * Checks if the system requirements are met
+ * Creates/Maintains the object of Requirements Checker Class
  *
- * @since    1.0.0
- * @return bool True if system requirements are met, false if not
+ * @return \Example_Me\Includes\Requirements_Checker
+ * @since 1.0.0
  */
-function example_me_requirements_met() {
-	global $wp_version;
+function plugin_requirements_checker() {
+	static $requirements_checker = null;
 
-	if ( version_compare( PHP_VERSION, EXAMPLE_ME_REQUIRED_PHP_VERSION, '<' ) ) {
-		return false;
-	}
-	if ( version_compare( $wp_version, EXAMPLE_ME_REQUIRED_WP_VERSION, '<' ) ) {
-		return false;
-	}
-	if ( is_multisite() != EXAMPLE_ME_REQUIRED_WP_NETWORK ) {
-		return false;
+	if ( null === $requirements_checker ) {
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-requirements-checker.php';
+		$requirements_conf = apply_filters( 'example_me_minimum_requirements', include_once( plugin_dir_path( __FILE__ ) . 'requirements-config.php' ) );
+		$requirements_checker = new Example_Me\Includes\Requirements_Checker( $requirements_conf );
 	}
 
-	return true;
-}
-
-/**
- * Prints an error that the system requirements weren't met.
- *
- * @since    1.0.0
- */
-function example_me_show_requirements_error() {
-	global $wp_version;
-	require_once( dirname( __FILE__ ) . '/app/templates/admin/errors/requirements-error.php' );
-}
-
-/**
- * The code that runs during plugin activation.
- */
-function activate_example_me() {
-	( new Example_Me\App\Activator() )->activate();
-}
-/**
- * The code that runs during plugin deactivation.
- */
-function deactivate_example_me() {
-	( new Example_Me\App\Deactivator() )->deactivate();
+	return $requirements_checker;
 }
 
 /**
@@ -80,40 +49,47 @@ function deactivate_example_me() {
  */
 function run_example_me() {
 
-	/**
-	 * Check requirements and load main class
-	 * The main program needs to be in a separate file that only gets loaded if the plugin requirements are met.
-	 * Otherwise older PHP installations could crash when trying to parse it.
-	 */
-	if ( example_me_requirements_met() ) {
-
-		/**
-		 * The core plugin class that is used to define internationalization,
-		 * admin-specific hooks, and frontend-facing site hooks.
-		 */
-		require_once plugin_dir_path( __FILE__ ) . 'includes/class-example-me.php';
-
-		/**
-		 * Begins execution of the plugin.
-		 *
-		 * Since everything within the plugin is registered via hooks,
-		 * then kicking off the plugin from this point in the file does
-		 * not affect the page life cycle.
-		 *
-		 * @since    1.0.0
-		 */
-		$router_class_name = apply_filters( 'example_me_router_class_name', '\Example_Me\Core\Router' );
-		$routes = apply_filters( 'example_me_routes_file', plugin_dir_path( __FILE__ ) . 'routes.php' );
-		$GLOBALS['example_me'] = new Example_Me( $router_class_name, $routes );
-
-		register_activation_hook( __FILE__, 'activate_example_me' );
-		register_deactivation_hook( __FILE__, 'deactivate_example_me' );
-	} else {
-		add_action( 'admin_notices', 'example_me_show_requirements_error' );
+	// If Plugins Requirements are not met.
+	if ( ! plugin_requirements_checker()->requirements_met() ) {
+		add_action( 'admin_notices', array( plugin_requirements_checker(), 'show_requirements_errors' ) );
 
 		// Deactivate plugin immediately if requirements are not met.
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		deactivate_plugins( plugin_basename( __FILE__ ) );
+
+		return;
 	}
+
+	/**
+	 * The core plugin class that is used to define internationalization,
+	 * admin-specific hooks, and frontend-facing site hooks.
+	 */
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-example-me.php';
+
+	/**
+	 * Begins execution of the plugin.
+	 *
+	 * Since everything within the plugin is registered via hooks,
+	 * then kicking off the plugin from this point in the file does
+	 * not affect the page life cycle.
+	 *
+	 * @since    1.0.0
+	 */
+	$router_class_name = apply_filters( 'example_me_router_class_name', '\Example_Me\Core\Router' );
+	$routes = apply_filters( 'example_me_routes_file', plugin_dir_path( __FILE__ ) . 'routes.php' );
+	$GLOBALS['example_me'] = new Example_Me( $router_class_name, $routes );
+
+	register_activation_hook( __FILE__, array( new Example_Me\App\Activator(), 'activate' ) );
+	register_deactivation_hook( __FILE__, array( new Example_Me\App\Deactivator(), 'deactivate' ) );
 }
+
 run_example_me();
+
+// add_action('shutdown', function(){
+// $class_namespace = 'Example_Me\App';
+// $all_classes = get_declared_classes();
+// $plugin_classes = array_filter( $all_classes, function( $class_name ) use( $class_namespace) {
+// return strpos( $class_name, $class_namespace ) === 0;
+// });
+// echo '<pre>' . print_r( $plugin_classes, true ) . '</pre>';
+// }); // Code to print list of App related classes being loaded while rendering the page.

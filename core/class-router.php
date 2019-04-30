@@ -1,8 +1,8 @@
 <?php
 namespace Example_Me\Core;
 
-use \Example_Me as Example_Me;
-use \Example_Me\Core\Route_Type as Route_Type;
+use Example_Me as Example_Me;
+use Example_Me\Core\Route_Type as Route_Type;
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Router' ) ) {
 	/**

@@ -1,7 +1,7 @@
 <?php
 namespace Example_Me\Core;
 
-use \Example_Me\Core\Registry\Model as Model_Registry;
+use Example_Me\Core\Registry\Model as Model_Registry;
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Model' ) ) {
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-use \Example_Me\Core\Route_Type as Route_Type;
+use Example_Me\Core\Route_Type as Route_Type;
 
 /*
 |---------------------------------------------------------------------------------------------------------
@@ -133,13 +133,11 @@ use \Example_Me\Core\Route_Type as Route_Type;
 // Route for Settings Page.
 $router
 	->register_route_of_type( ROUTE_TYPE::ADMIN )
-	->with_controller( 'Admin_Settings' ) // Resolved by Router to 'Example_Me\App\Controllers\Admin\Admin_Settings'.
+	->with_controller( 'Admin_Settings@register_hook_callbacks' ) // Resolved by Router to 'Example_Me\App\Controllers\Admin\Admin_Settings'.
 	->with_model( 'Admin_Settings' ) // Resolved by Router to 'Example_Me\App\Models\Admin\Admin_Settings'.
 	->with_view( 'Admin_Settings' ); // Resolved by Router to 'Example_Me\App\Views\Admin\Admin_Settings'.
-
-// Route for Sample Shortcode.
 $router
 	->register_route_of_type( ROUTE_TYPE::FRONTEND )
-	->with_controller( 'Print_Posts_Shortocde@register_shortcode' )
-	->with_model( 'Print_Posts_Shortocde' )
-	->with_view( 'Print_Posts_Shortocde' );
+	->with_controller( 'Print_Posts_Shortcode@register_shortcode' )
+	->with_model( 'Print_Posts_Shortcode' )
+	->with_view( 'Print_Posts_Shortcode' );

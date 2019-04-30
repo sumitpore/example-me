@@ -1,7 +1,7 @@
 <?php
 namespace Example_Me\App\Controllers\Frontend;
 
-use \Example_Me\Core\Controller;
+use Example_Me\Core\Controller;
 
 if ( ! class_exists( __NAMESPACE__ . '\\' . 'Base_Controller' ) ) {
 	/**
